@@ -33,6 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--no_augmentation', help='disable color swap data augmentation', action='store_true')
 
     # hyper parameters
+    parser.add_argument('--visual_model', help='resnet type (see models/nn/resnet.py)', default='resnet18', type=str)
     parser.add_argument('--batch', help='batch size', default=4, type=int)
     parser.add_argument('--epoch', help='number of epochs', default=50, type=int)
     parser.add_argument('--lr', help='optimizer learning rate', default=1e-4, type=float)

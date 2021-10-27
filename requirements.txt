@@ -12,3 +12,8 @@ torch==1.5.0
 torchvision==0.6.0
 tensorboardX==1.8
 ai2thor==2.1.0
+
+## clip
+ftfy
+regex
+clip @ git+git://github.com/openai/clip@e184f608c5d5e58165682f7c332c3a8b4c1545f2#egg=clip

@@ -104,7 +104,7 @@ class ConvFrameMaskDecoder(nn.Module):
     action decoder
     '''
 
-    def __init__(self, emb, dframe, dhid, pframe=300,
+    def __init__(self, emb, dframe, dhid, conv_channes, pframe=300,
                  attn_dropout=0., hstate_dropout=0., actor_dropout=0., input_dropout=0.,
                  teacher_forcing=False):
         super().__init__()
@@ -214,11 +214,11 @@ class ScaledDotAttn(nn.Module):
 
 
 class DynamicConvLayer(nn.Module):
-    def __init__(self, dhid=512):
+    def __init__(self, dhid=512, n_channels=512):
         super().__init__()
-        self.head1 = nn.Linear(dhid, 512)
-        self.head2 = nn.Linear(dhid, 512)
-        self.head3 = nn.Linear(dhid, 512)
+        self.head1 = nn.Linear(dhid, n_channels)
+        self.head2 = nn.Linear(dhid, n_channels)
+        self.head3 = nn.Linear(dhid, n_channels)
         self.filter_activation = nn.Tanh()
 
     def forward(self, frame, weighted_lang_t_instr):
@@ -245,7 +245,7 @@ class ConvFrameMaskDecoderProgressMonitor(nn.Module):
     action decoder with subgoal and progress monitoring
     '''
 
-    def __init__(self, emb, dframe, dhid, pframe=300,
+    def __init__(self, emb, dframe, dhid, conv_channels, pframe=300,
                  attn_dropout=0., hstate_dropout=0., actor_dropout=0., input_dropout=0.,
                  teacher_forcing=False):
         super().__init__()
@@ -278,7 +278,7 @@ class ConvFrameMaskDecoderProgressMonitor(nn.Module):
         nn.init.uniform_(self.go, -0.1, 0.1)
 
         self.scale_dot_attn = ScaledDotAttn(dhid, 128, dhid, 128)
-        self.dynamic_conv = DynamicConvLayer(dhid)
+        self.dynamic_conv = DynamicConvLayer(dhid, conv_channels)
 
     def step(self, enc_goal, enc_instr, frame, e_t, state_tm1_goal, state_tm1_instr):
         # previous decoder hidden state (goal, instr decoder)
