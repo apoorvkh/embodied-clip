@@ -45,17 +45,17 @@ if __name__ == '__main__':
             fimages = sorted([os.path.join(root, f) for f in files
                               if (f.endswith('.png') or (f.endswith('.jpg')))])
             if len(fimages) > 0:
-                if args.skip_existing and os.path.isfile(os.path.join(root, filename)):
+                output_file = os.path.join(
+                    root.replace(args.data, args.out_folder).replace('raw_images', ''),
+                    filename
+                )
+                if args.skip_existing and os.path.isfile(output_file):
                     continue
                 try:
                     print('{}'.format(root))
                     image_loader = Image.open if isinstance(fimages[0], str) else Image.fromarray
                     images = [image_loader(f) for f in fimages]
                     feat = extractor.featurize(images, batch=args.batch)
-                    output_file = os.path.join(
-                        root.replace(args.data, args.out_folder).replace('raw_images', ''),
-                        filename
-                    )
                     torch.save(feat.cpu(), output_file)
                 except Exception as e:
                     print(e)
