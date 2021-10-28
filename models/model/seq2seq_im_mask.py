@@ -38,7 +38,8 @@ class Module(Base):
 
         # frame mask decoder
         decoder = vnn.ConvFrameMaskDecoderProgressMonitor if self.subgoal_monitoring else vnn.ConvFrameMaskDecoder
-        conv_channels = Resnet(args).resnet_model.output_channels
+        self.resnet = Resnet(args)
+        conv_channels = self.resnet.resnet_model.output_channels
         self.dec = decoder(self.emb_action_low, args.dframe, 2*args.dhid, conv_channels,
                            pframe=args.pframe,
                            attn_dropout=args.attn_dropout,
