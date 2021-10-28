@@ -60,10 +60,12 @@ class ResnetCLIP(object):
     pretrained Resnet50 from clip
     '''
     def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True):
-        self.model = clip.load(
+        model, preprocess = clip.load(
             "RN50",
             device=('cuda' if args.gpu else 'cpu')
-        )[0].visual
+        )
+        self.model = model.visual
+        self.transform = preprocess
 
         if eval:
             self.model = self.model.eval()
@@ -111,6 +113,9 @@ class Resnet(object):
         self.model_type = args.visual_model
         self.gpu = args.gpu
 
+        # normalization transform
+        self.transform = self.get_default_transform()
+
         # choose model type
         if self.model_type == "maskrcnn":
             self.resnet_model = MaskRCNN(args, eval, share_memory)
@@ -120,9 +125,7 @@ class Resnet(object):
             self.resnet_model = Resnet50(args, eval, share_memory, use_conv_feat=use_conv_feat)
         elif self.model_type == 'resnet50_clip':
             self.resnet_model = ResnetCLIP(args, eval, share_memory, use_conv_feat=use_conv_feat)
-
-        # normalization transform
-        self.transform = self.get_default_transform()
+            self.transform = self.resnet_model.transform
 
 
     @staticmethod
