@@ -38,12 +38,12 @@ class ResnetVisualEncoder(nn.Module):
     visual encoder
     '''
 
-    def __init__(self, dframe):
+    def __init__(self, dframe, input_channels=512):
         super(ResnetVisualEncoder, self).__init__()
         self.dframe = dframe
         self.flattened_size = 64*7*7
 
-        self.conv1 = nn.Conv2d(512, 256, kernel_size=1, stride=1, padding=0)
+        self.conv1 = nn.Conv2d(input_channels, 256, kernel_size=1, stride=1, padding=0)
         self.conv2 = nn.Conv2d(256, 64, kernel_size=1, stride=1, padding=0)
         self.fc = nn.Linear(self.flattened_size, self.dframe)
         self.bn1 = nn.BatchNorm2d(256)
@@ -104,7 +104,7 @@ class ConvFrameMaskDecoder(nn.Module):
     action decoder
     '''
 
-    def __init__(self, emb, dframe, dhid, pframe=300,
+    def __init__(self, emb, dframe, dhid, feat_conv_channels, pframe=300,
                  attn_dropout=0., hstate_dropout=0., actor_dropout=0., input_dropout=0.,
                  teacher_forcing=False):
         super().__init__()
@@ -113,7 +113,7 @@ class ConvFrameMaskDecoder(nn.Module):
         self.emb = emb
         self.pframe = pframe
         self.dhid = dhid
-        self.vis_encoder = ResnetVisualEncoder(dframe=dframe)
+        self.vis_encoder = ResnetVisualEncoder(dframe, feat_conv_channels)
         self.cell = nn.LSTMCell(dhid+dframe+demb, dhid)
         self.attn = DotAttn()
         self.input_dropout = nn.Dropout(input_dropout)
@@ -190,7 +190,7 @@ class ConvFrameMaskDecoderProgressMonitor(nn.Module):
     action decoder with subgoal and progress monitoring
     '''
 
-    def __init__(self, emb, dframe, dhid, pframe=300,
+    def __init__(self, emb, dframe, dhid, feat_conv_channels, pframe=300,
                  attn_dropout=0., hstate_dropout=0., actor_dropout=0., input_dropout=0.,
                  teacher_forcing=False):
         super().__init__()
@@ -199,7 +199,7 @@ class ConvFrameMaskDecoderProgressMonitor(nn.Module):
         self.emb = emb
         self.pframe = pframe
         self.dhid = dhid
-        self.vis_encoder = ResnetVisualEncoder(dframe=dframe)
+        self.vis_encoder = ResnetVisualEncoder(dframe, feat_conv_channels)
         self.cell = nn.LSTMCell(dhid+dframe+demb, dhid)
         self.attn = DotAttn()
         self.input_dropout = nn.Dropout(input_dropout)

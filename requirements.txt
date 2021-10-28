@@ -7,7 +7,12 @@ tqdm
 vocab
 revtok
 Pillow
-torch==1.1.0
-torchvision==0.3.0
+torch==1.7.1
+torchvision==0.8.2
 tensorboardX==1.8
 ai2thor==2.1.0
+
+## clip
+ftfy
+regex
+clip @ git+git://github.com/openai/clip@e184f608c5d5e58165682f7c332c3a8b4c1545f2#egg=clip

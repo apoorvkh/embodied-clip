@@ -2,6 +2,7 @@ import os
 import torch
 import numpy as np
 import nn.vnn as vnn
+from nn.resnet import Resnet
 import collections
 from torch import nn
 from torch.nn import functional as F
@@ -9,7 +10,6 @@ from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_se
 from model.seq2seq import Module as Base
 from models.utils.metric import compute_f1, compute_exact
 from gen.utils.image_util import decompress_mask
-
 
 class Module(Base):
 
@@ -28,7 +28,8 @@ class Module(Base):
 
         # frame mask decoder
         decoder = vnn.ConvFrameMaskDecoderProgressMonitor if self.subgoal_monitoring else vnn.ConvFrameMaskDecoder
-        self.dec = decoder(self.emb_action_low, args.dframe, 2*args.dhid,
+        conv_channels = Resnet(args).resnet_model.output_channels
+        self.dec = decoder(self.emb_action_low, args.dframe, 2*args.dhid, conv_channels,
                            pframe=args.pframe,
                            attn_dropout=args.attn_dropout,
                            hstate_dropout=args.hstate_dropout,
@@ -52,7 +53,14 @@ class Module(Base):
 
         # paths
         self.root_path = os.getcwd()
-        self.feat_pt = 'feat_conv.pt'
+        if args.visual_model == 'resnet18':
+            self.feat_pt = 'feat_conv.pt'
+        elif args.visual_model == 'resnet50':
+            self.feat_pt = 'feat_conv_resnet50.pt'
+        elif args.visual_model == 'resnet50_clip':
+            self.feat_pt = 'feat_conv_resnet50_clip.pt'
+        elif args.visual_model == 'maskrcnn':
+            self.feat_pt = 'feat_conv_maskrcnn.pt'
 
         # params
         self.max_subgoals = 25

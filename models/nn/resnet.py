@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
+import clip
 
 
 class Resnet18(object):
@@ -22,6 +23,58 @@ class Resnet18(object):
 
         if use_conv_feat:
             self.model = nn.Sequential(*list(self.model.children())[:-2])
+
+        self.output_channels = 512
+
+    def extract(self, x):
+        return self.model(x)
+
+
+class Resnet50(object):
+    '''
+    pretrained Resnet50 from torchvision
+    '''
+
+    def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True):
+        self.model = models.resnet50(pretrained=True)
+
+        if args.gpu:
+            self.model = self.model.to(torch.device('cuda'))
+
+        if eval:
+            self.model = self.model.eval()
+
+        if share_memory:
+            self.model.share_memory()
+
+        if use_conv_feat:
+            self.model = nn.Sequential(*list(self.model.children())[:-2])
+
+        self.output_channels = 2048
+
+
+class ResnetCLIP(object):
+    '''
+    pretrained Resnet50 from clip
+    '''
+    def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True):
+        model, preprocess = clip.load(
+            "RN50",
+            device=('cuda' if args.gpu else 'cpu')
+        )
+        self.model = model.visual
+        self.transform = preprocess
+
+        if eval:
+            self.model = self.model.eval()
+
+        if share_memory:
+            self.model.share_memory()
+
+        if use_conv_feat:
+            self.model.attnpool = nn.Identity()
+
+        self.output_channels = 2048
 
     def extract(self, x):
         return self.model(x)
@@ -46,6 +99,7 @@ class MaskRCNN(object):
         if share_memory:
             self.model.share_memory()
 
+        self.output_channels = 2048
 
     def extract(self, x):
         features = self.model(x)
@@ -58,15 +112,19 @@ class Resnet(object):
         self.model_type = args.visual_model
         self.gpu = args.gpu
 
-        # choose model type
-        if self.model_type == "maskrcnn":
-            self.resnet_model = MaskRCNN(args, eval, share_memory)
-        else:
-            self.resnet_model = Resnet18(args, eval, share_memory, use_conv_feat=use_conv_feat)
-
         # normalization transform
         self.transform = self.get_default_transform()
 
+        # choose model type
+        if self.model_type == "maskrcnn":
+            self.resnet_model = MaskRCNN(args, eval, share_memory)
+        elif self.model_type == 'resnet18':
+            self.resnet_model = Resnet18(args, eval, share_memory, use_conv_feat=use_conv_feat)
+        elif self.model_type == 'resnet50':
+            self.resnet_model = Resnet50(args, eval, share_memory, use_conv_feat=use_conv_feat)
+        elif self.model_type == 'resnet50_clip':
+            self.resnet_model = ResnetCLIP(args, eval, share_memory, use_conv_feat=use_conv_feat)
+            self.transform = self.resnet_model.transform
 
     @staticmethod
     def get_default_transform():

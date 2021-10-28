@@ -244,7 +244,7 @@ class Module(nn.Module):
         '''
         single string for task_id and annotation repeat idx
         '''
-        return "%s_%s" % (ex['task_id'], str(ex['repeat_idx']))
+        return "%s_%s" % (ex['task_id'], str(ex['ann']['repeat_idx']))
 
     def make_debug(self, preds, data):
         '''
