@@ -3,9 +3,10 @@ import sys
 sys.path.append(os.path.join(os.environ['ALFRED_ROOT']))
 sys.path.append(os.path.join(os.environ['ALFRED_ROOT'], 'models'))
 
-import tqdm
+from tqdm import tqdm
 import torch
 import os
+import json
 from PIL import Image
 from nn.resnet import Resnet
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
@@ -18,6 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('--data', help='data folder', default='data/2.1.0')
     parser.add_argument('--img_folder', help='folder containing raw images', default='raw_images')
     parser.add_argument('--out_folder', help='output data folder', default='data/json_feat_2.1.0')
+    parser.add_argument('--all_images', help='extract features for all images', action='store_true')
 
     parser.add_argument('--batch', help='batch size', default=256, type=int)
     parser.add_argument('--gpu', help='use gpu', action='store_true')
@@ -40,13 +42,25 @@ if __name__ == '__main__':
     extractor = Resnet(args, eval=True)
     skipped = []
 
-    for root, dirs, files in tqdm.tqdm(os.walk(args.data)):
+    for root, dirs, files in tqdm(os.walk(args.data)):
         if os.path.basename(root) == args.img_folder:
+
+            if args.all_images is False:
+                with open(root.replace(args.img_folder, 'traj_data.json'), 'r', encoding='utf-8') as file:
+                    traj_data = json.load(file)
+                files = []
+                seen_low_indices = set([])
+                for image_data in traj_data['images']:
+                    if image_data['low_idx'] not in seen_low_indices:
+                        files.append(image_data['image_name'])
+                        seen_low_indices.add(image_data['low_idx'])
+
             fimages = sorted([os.path.join(root, f) for f in files
                               if (f.endswith('.png') or (f.endswith('.jpg')))])
+
             if len(fimages) > 0:
                 output_file = os.path.join(
-                    root.replace(args.data, args.out_folder).replace('raw_images', ''),
+                    root.replace(args.data, args.out_folder).replace(args.img_folder, ''),
                     filename
                 )
                 if args.skip_existing and os.path.isfile(output_file):
