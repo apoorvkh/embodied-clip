@@ -52,8 +52,9 @@ if __name__ == '__main__':
                 seen_low_indices = set([])
                 for image_data in traj_data['images']:
                     if image_data['low_idx'] not in seen_low_indices:
-                        files.append(image_data['image_name'])
                         seen_low_indices.add(image_data['low_idx'])
+                        image_name = image_data['image_name'].replace('.png', '.jpg')
+                        files.append(image_name)
 
             fimages = sorted([os.path.join(root, f) for f in files
                               if (f.endswith('.png') or (f.endswith('.jpg')))])
