@@ -50,8 +50,9 @@ if __name__ == '__main__':
                     traj_data = json.load(file)
                 files = []
                 seen_low_indices = set([])
-                for image_data in traj_data['images']:
-                    if image_data['low_idx'] not in seen_low_indices:
+                for image_i, image_data in enumerate(traj_data['images']):
+                    # Get first frame per low-level action and stop frame
+                    if image_data['low_idx'] not in seen_low_indices or image_i == len(traj_data['images']) - 1:
                         seen_low_indices.add(image_data['low_idx'])
                         image_name = image_data['image_name'].replace('.png', '.jpg')
                         files.append(image_name)
