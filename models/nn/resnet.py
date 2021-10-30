@@ -79,7 +79,7 @@ class ResnetCLIP(object):
         self.output_channels = 2048
 
     def extract(self, x):
-        return self.model(x)
+        return self.model(x).float()
 
 class MaskRCNN(object):
     '''

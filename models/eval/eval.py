@@ -45,7 +45,6 @@ class Eval(object):
             dataset.preprocess_splits(self.splits)
 
         # load resnet
-        args.visual_model = 'resnet18'
         self.resnet = Resnet(args, eval=True, share_memory=True, use_conv_feat=True)
 
         # gpu
