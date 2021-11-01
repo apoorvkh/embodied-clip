@@ -1,0 +1,30 @@
+cd ~/clip-moca
+conda activate alfred-1.5
+export CUDA_VISIBLE_DEVICES=0
+export ALFRED_ROOT=/home/ubuntu/clip-moca
+
+python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_15.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-15 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_20.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-20 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_25.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-25 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_30.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-30 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_35.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-35 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_40.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-40 (Valid Seen)"
+
+
+cd ~/clip-moca
+conda activate alfred-1.5
+export CUDA_VISIBLE_DEVICES=1
+export ALFRED_ROOT=/home/ubuntu/clip-moca
+
+python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_15.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-15 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_20.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-20 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_25.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-25 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_30.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-30 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-rn50/net_epoch_40.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50 && echo "COMPLETED EXPERIMENT: ImageNet-40 (Valid Unseen)"
+
+
+cd ~/clip-moca
+conda activate alfred-1.5
+export CUDA_VISIBLE_DEVICES=2
+export ALFRED_ROOT=/home/ubuntu/clip-moca
+
+python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_20.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-20 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_25.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-25 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_30.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-30 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_40.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-40 (Valid Seen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_45.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-45 (Valid Seen)"
+
+
+cd ~/clip-moca
+conda activate alfred-1.5
+export CUDA_VISIBLE_DEVICES=3
+export ALFRED_ROOT=/home/ubuntu/clip-moca
+
+python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_20.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-20 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_25.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-25 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_30.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-30 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_40.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-40 (Valid Unseen)" && python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-moca-clip/net_epoch_45.pth --eval_split valid_unseen --gpu --num_threads 6 --visual_model resnet50_clip && echo "COMPLETED EXPERIMENT: CLIP-45 (Valid Unseen)"
