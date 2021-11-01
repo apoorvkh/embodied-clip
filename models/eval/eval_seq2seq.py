@@ -31,6 +31,8 @@ if __name__ == '__main__':
     parser.add_argument('--use_templated_goals', help='use templated goals instead of human-annotated goal descriptions (only available for train set)', action='store_true')
     parser.add_argument('--num_threads', type=int, default=1)
 
+    parser.add_argument('--visual_model', help='resnet type (see models/nn/resnet.py)', default='resnet18', type=str)
+
     # eval params
     parser.add_argument('--max_steps', type=int, default=1000, help='max steps before episode termination')
     parser.add_argument('--max_fails', type=int, default=10, help='max API execution failures before episode termination')

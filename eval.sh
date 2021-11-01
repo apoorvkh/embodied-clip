@@ -1,0 +1,1 @@
+python models/eval/eval_seq2seq.py --data ../alfred_data/json_feat_2.1.0 --model_path ../logs/alfred-baseline-rn50/net_epoch_15.pth --eval_split valid_seen --gpu --num_threads 6 --visual_model resnet50

@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch', help='batch size', default=256, type=int)
     parser.add_argument('--gpu', help='use gpu', action='store_true')
     parser.add_argument('--skip_existing', help='skip folders that already have feats', action='store_true')
-    parser.add_argument('--visual_model', default='resnet18', help='model type: maskrcnn or resnet18', choices=['maskrcnn', 'resnet18'])
+    parser.add_argument('--visual_model', default='resnet18', help='model type: maskrcnn or resnet18', choices=['maskrcnn', 'resnet18', 'resnet50', 'resnet50_clip'])
     parser.add_argument('--filename', help='filename of feat', default='feat_conv.pt')
     parser.add_argument('--img_folder', help='folder containing raw images', default='raw_images')
 

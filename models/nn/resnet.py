@@ -52,6 +52,8 @@ class Resnet50(object):
 
         self.output_channels = 2048
 
+    def extract(self, x):
+        return self.model(x)
 
 class ResnetCLIP(object):
     '''
@@ -59,7 +61,7 @@ class ResnetCLIP(object):
     '''
     def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True):
         model, preprocess = clip.load(
-            "RN50",
+            "RN50_1.5.pt",
             device=('cuda' if args.gpu else 'cpu')
         )
         self.model = model.visual
