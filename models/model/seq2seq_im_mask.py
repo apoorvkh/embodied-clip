@@ -151,7 +151,9 @@ class Module(Base):
                 if not swapColor:
                     im = torch.load(os.path.join(root, self.feat_pt))
                 else:
-                    im = torch.load(os.path.join(root, 'feat_conv_colorSwap{}.pt'.format(swapColor)))
+                    im = torch.load(os.path.join(root,
+                        self.feat_pt.replace('feat_conv', 'feat_conv_colorSwap{}'.format(swapColor))
+                    ))
                 feat['frames'].append(im)
 
         # tensorization and padding
