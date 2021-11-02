@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
-from autoaugment import ImageNetPolicy
+from models.utils.autoaugment import ImageNetPolicy
 import clip
 
 class Resnet18(object):

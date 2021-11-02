@@ -1,5 +1,5 @@
 import numpy as np
-from ops import *
+from models.utils.ops import *
 
 
 class ImageNetPolicy(object):
