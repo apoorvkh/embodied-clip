@@ -8,6 +8,7 @@ import torch
 import os
 import json
 from PIL import Image
+import numpy as np
 from nn.resnet import Resnet
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 
@@ -25,6 +26,7 @@ if __name__ == '__main__':
     parser.add_argument('--gpu', help='use gpu', action='store_true')
     parser.add_argument('--skip_existing', help='skip folders that already have feats', action='store_true')
     parser.add_argument('--visual_model', default='resnet18', help='model type', choices=['maskrcnn', 'resnet18', 'resnet50', 'resnet50_clip'])
+    parser.add_argument('--augmentation', default=0, help='augmentation (1: color swap, 2: autoaugment)', type=int)
 
     # parser
     args = parser.parse_args()
@@ -38,8 +40,11 @@ if __name__ == '__main__':
     elif args.visual_model == 'resnet50_clip':
         filename = 'feat_conv_resnet50_clip.pt'
 
+    if args.augmentation:
+        filename = filename.replace('feat_conv', 'feat_conv_colorSwap{}'.format(args.augmentation))
+
     # load resnet model
-    extractor = Resnet(args, eval=True)
+    extractor = Resnet(args, eval=True, autoaugment=(args.augmentation == 2))
     skipped = []
 
     for root, dirs, files in tqdm(os.walk(args.data)):
@@ -71,6 +76,8 @@ if __name__ == '__main__':
                     print('{}'.format(root))
                     image_loader = Image.open if isinstance(fimages[0], str) else Image.fromarray
                     images = [image_loader(f) for f in fimages]
+                    if args.augmentation == 1:
+                        images = [Image.fromarray(np.asarray(image)[:,:,np.random.permutation(3)]) for image in images]
                     feat = extractor.featurize(images, batch=args.batch)
                     torch.save(feat.cpu(), output_file)
                 except Exception as e:

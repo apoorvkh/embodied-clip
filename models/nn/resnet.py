@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
+from autoaugment import ImageNetPolicy
 import clip
 
 class Resnet18(object):
@@ -109,7 +110,7 @@ class MaskRCNN(object):
 
 class Resnet(object):
 
-    def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True):
+    def __init__(self, args, eval=True, share_memory=False, use_conv_feat=True, autoaugment=False):
         self.model_type = args.visual_model
         self.gpu = args.gpu
 
@@ -126,6 +127,12 @@ class Resnet(object):
         elif self.model_type == 'resnet50_clip':
             self.resnet_model = ResnetCLIP(args, eval, share_memory, use_conv_feat=use_conv_feat)
             self.transform = self.resnet_model.transform
+
+        if autoaugment:
+            self.transform.transforms.insert(
+                [t.__class__.__name__ for t in self.transform.transforms].index('ToTensor'),
+                ImageNetPolicy()
+            )
 
 
     @staticmethod
