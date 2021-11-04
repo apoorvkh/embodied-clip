@@ -2,8 +2,9 @@ name: pointnav-vo
 channels:
   - pytorch
   - conda-forge
+  - aihabitat
 dependencies:
-  - python=3.7
+  - python=3.6
   - cmake=3.14.0
   - numpy
   - numba
@@ -13,8 +14,11 @@ dependencies:
   - h5py
   - pytorch=1.6.0
   - torchvision=0.7.0
-  - cudatoolkit=10.1
+  - cudatoolkit=11.0
   - pip
+  - habitat-sim=1.5.0
+  - withbullet
+  - headless
   - pip:
     - yacs
     - lz4
