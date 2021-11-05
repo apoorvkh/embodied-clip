@@ -3,13 +3,13 @@ BASE_TASK_CONFIG_PATH: "configs/point_nav_habitat_challenge_2020.yaml"
 ENGINE_NAME: "vo_cnn_regression_geo_invariance_engine"
 
 # logging settings
-LOG_DIR: "train_log"
-LOG_FILE: "train_log/train.log"
-INFO_DIR: "train_log/infos"
-CHECKPOINT_FOLDER: "train_log/checkpoints"
-TENSORBOARD_DIR: "train_log/tb"
+LOG_DIR: "../logs/pointnav_vo_clip"
+LOG_FILE: "../logs/pointnav_vo_clip/train.log"
+INFO_DIR: "../logs/pointnav_vo_clip/infos"
+CHECKPOINT_FOLDER: "../logs/pointnav_vo_clip/checkpoints"
+TENSORBOARD_DIR: "../logs/pointnav_vo_clip/tb"
 VIDEO_OPTION: []
-VIDEO_DIR: "train_log/videos"
+VIDEO_DIR: "../logs/pointnav_vo_clip/videos"
 LOG_INTERVAL: 10
 
 RESUME_TRAIN: False
@@ -64,8 +64,8 @@ VO:
     #  vo_cnn_act_embed, vo_cnn_wider_act_embed,
     #  vo_cnn_rgb_d_dd, vo_cnn_rgb_d_top_down, vo_cnn_rgb_dd_top_down, vo_cnn_d_dd_top_down,
     #  vo_cnn_rgb_d_dd_top_down]
-    name: "vo_cnn_rgb_d_dd_top_down"
-    visual_backbone: "resnet18"
+    name: "vo_clip_rgb_d_dd_top_down"
+    visual_backbone: "resnet50_clip"
     hidden_size: 512
     visual_type: ["rgb", "depth", "discretized_depth", "top_down_view"]  # choices: ["rgb", "depth", "discretized_depth", "top_down_view"]
     discretize_depth: "hard"  # choices: ['none', 'hard']
@@ -88,7 +88,7 @@ VO:
   
   GEOMETRY:
     loss_inv_weight: 1
-    invariance_types: ["inverse_data_augment_only"]  # choices: ["inverse_data_augment_only", "inverse_joint_train"]
+    invariance_types: [] # ["inverse_data_augment_only"]  # choices: ["inverse_data_augment_only", "inverse_joint_train"]
 
   DATASET:
     TRAIN_WITH_NOISE: dataset/vo_dataset/train_1000000.h5

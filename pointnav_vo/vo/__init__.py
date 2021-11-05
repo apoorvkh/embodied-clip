@@ -15,6 +15,10 @@ from pointnav_vo.vo.models.vo_cnn_act_embed import (
     VisualOdometryCNNWiderActEmbed,
 )
 
+from pointnav_vo.vo.models.vo_clip import (
+    VisualOdometryCNNDiscretizedDepthTopDownView,
+)
+
 from pointnav_vo.vo.engine.vo_cnn_engine import VOCNNBaseEngine
 from pointnav_vo.vo.engine.vo_cnn_regression_geo_invariance_engine import (
     VOCNNRegressionGeometricInvarianceEngine,
