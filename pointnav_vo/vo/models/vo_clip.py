@@ -33,7 +33,7 @@ class CLIPEncoder(nn.Module):
             preprocess.transforms[0],  
             preprocess.transforms[1],
             # already tensor, but want float
-            T.ConvertImageDtype(torch.float),
+            T.Lambda(lambda y : y / 255),
             # normalize with CLIP mean, std
             preprocess.transforms[4],
         ])
