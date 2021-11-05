@@ -9,6 +9,7 @@ from tqdm import tqdm
 import numpy as np
 
 import torch
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 from habitat import logger
 
