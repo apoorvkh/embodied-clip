@@ -5,7 +5,7 @@ from manipulathor_baselines.armpointnav_baselines.experiments.ithor.armpointnav_
 class ArmPointNavRGBCLIPDistrib(
     ArmPointNavRGBCLIP
 ):
-    NUM_PROCESSES = 20
+    NUM_PROCESSES = 16
     def __init__(
         self,
         distributed_nodes: int = 1,
