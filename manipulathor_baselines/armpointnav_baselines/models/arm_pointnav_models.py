@@ -20,7 +20,7 @@ from allenact.base_abstractions.misc import ActorCriticOutput
 from allenact.embodiedai.models.basic_models import SimpleCNN, RNNStateEncoder
 from gym.spaces.dict import Dict as SpaceDict
 
-from manipulathor_baselines.armpointnav_baselines.models.base_models import CLIPVisualEncoder
+from manipulathor_baselines.armpointnav_baselines.models.base_models import ResNet50Encoder, CLIPVisualEncoder
 from manipulathor_utils.net_utils import input_embedding_net
 
 
@@ -185,6 +185,22 @@ class ArmPointNavCLIPActorCritic(ArmPointNavBaselineActorCritic):
         assert "depth_lowres" not in sensor_names
 
         self.visual_encoder = CLIPVisualEncoder(
+            self.observation_space,
+            self._hidden_size,
+            rgb_uuid="rgb_lowres"
+        )
+
+
+class ArmPointNavResNet50ActorCritic(ArmPointNavBaselineActorCritic):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        sensor_names = self.observation_space.spaces.keys()
+
+        assert "rgb_lowres" in sensor_names
+        assert "depth_lowres" not in sensor_names
+
+        self.visual_encoder = ResNet50Encoder(
             self.observation_space,
             self._hidden_size,
             rgb_uuid="rgb_lowres"
