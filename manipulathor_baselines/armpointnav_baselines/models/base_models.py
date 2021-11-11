@@ -84,6 +84,7 @@ class CLIPVisualEncoder(nn.Module):
         self.backbone.eval()
 
         self.pool = nn.Sequential(
+            nn.GroupNorm(8, 2048),
             nn.AdaptiveAvgPool2d(output_size=(1,1)),
             nn.Flatten(),
             nn.Linear(2048, output_size),
