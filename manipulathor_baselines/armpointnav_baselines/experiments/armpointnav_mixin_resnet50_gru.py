@@ -3,7 +3,7 @@ from typing import Sequence, Union
 import gym
 import torch.nn as nn
 from allenact.base_abstractions.preprocessor import Preprocessor
-from allenact.base_abstractions.sensor import RGBSensor, DepthSensor
+from allenact.embodiedai.sensors.vision_sensors import RGBSensor, DepthSensor
 from allenact.utils.experiment_utils import Builder
 from allenact_plugins.ithor_plugin.ithor_sensors import GoalObjectTypeThorSensor
 
